@@ -1,3 +1,4 @@
+import math
 import sys
 from pathlib import Path
 import markdown
@@ -7,6 +8,7 @@ from rich.console import Console
 from rich.table import Table
 import click
 from concurrent.futures import ThreadPoolExecutor
+from readability import flesch_kincaid_grade_level
 
 try:
     file = Path(sys.argv[1])
@@ -19,7 +21,8 @@ console = Console()
 @click.command()
 @click.argument("input", type=click.File("r"))
 def check_file_links(input: file):
-    html = markdown.markdown(input.read())
+    file_text = input.read()
+    html = markdown.markdown(file_text)
     soup = BeautifulSoup(html, "html.parser")
     links = soup.find_all("a")
     hrefs = [link.attrs["href"] for link in links]
@@ -33,6 +36,8 @@ def check_file_links(input: file):
                 invalid.append((link, result[1]))
 
     valid_links, invalid_links = construct_link_tables(valid, invalid)
+    grade_level = math.ceil(flesch_kincaid_grade_level(file_text))
+    console.print(f"Reading difficulty (grade): [bold red]{grade_level}[/]")
     console.print(invalid_links)
     console.print(valid_links)
 
