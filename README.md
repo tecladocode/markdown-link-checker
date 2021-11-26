@@ -1,3 +1,5 @@
+[![PyPI version markdown-link-checker](https://badgen.net/badge/pypi%20version/0.1.0/green?icon=pypi)](https://pypi.python.org/pypi/markdown-link-checker/)
+
 # Markdown Link Checker
 
 A command-line utility written in Python that checks validity of links in a markdown file.
