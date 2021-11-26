@@ -1,0 +1,5 @@
+markdown
+beautifulsoup4
+requests
+click
+rich
